@@ -1,137 +1,258 @@
-# python-geospatial
+# BaiduPCS-Go 百度网盘工具箱 beta-v2
+This project was largely inspired by [GangZhuo/BaiduPCS](https://github.com/GangZhuo/BaiduPCS)
 
-A collection of Python packages for geospatial analysis with binder-ready notebook examples. Launch the interactive notebook tutorials with **mybinder.org** or **binder.pangeo.io** test all the pre-installed Python pakcages for geospatial analysis.
+# 特色
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/giswqs/python-geospatial/master)
-[![Pangeo](http://binder.pangeo.io/badge.svg)](http://binder.pangeo.io/v2/gh/giswqs/python-geospatial/master)
-[![MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+使用百度 BDUSS 登录百度网盘, 支持多用户, [关于 获取百度 BDUSS](https://github.com/iikira/BaiduPCS-Go/wiki/关于-获取百度-BDUSS);
 
+网盘内列出文件和目录, **支持通配符匹配路径**, [通配符_百度百科](https://baike.baidu.com/item/通配符);
 
-Author: Qiusheng Wu (https://wetlands.io)
+下载网盘内文件, 支持网盘内目录 (文件夹) 下载, 支持多个文件或目录下载, 支持断点续传和高并发**高速**下载;
 
-## Installation
+> 下载测试:
 
-It is highly recommended that you use the [conda](https://conda.io/docs/index.html) package manager to install all the requirements. You can either install [Miniconda](https://conda.io/miniconda.html) or the (larger) [Anaconda](https://www.anaconda.com/download/) distribution. It is also recommended that you install [git](https://git-scm.com/downloads) so that you can clone this GitHub reposiotry to your computer. 
+> 服务器: 阿里云
 
-Once conda and git are installed, the following commands will create a virtual Python environment named **pygeo** and install all the required packages:
+> 下载 4G 文件, 只需 7分29秒
+
+> ![test_4g](./assets/test/test_4g.png)
+
+> 自己感受一下吧
+
+# 程序 编译/交叉编译 说明
+参见 [交叉编译帮助](https://github.com/iikira/BaiduPCS-Go/wiki/交叉编译帮助) 
+
+# 程序 下载/运行 说明
+
+Go语言程序, 可直接下载使用, [点此查看发布页面 / 下载汇总](https://github.com/iikira/BaiduPCS-Go/releases).
+
+如果程序运行时输出乱码, 请检查下终端的编码方式是否为 `UTF-8`.
+
+使用本程序, 强烈建议学习一些 linux 基础知识, [Linux20个常用命令](http://blog.csdn.net/xufei512/article/details/53321980).
+
+如果未带任何参数运行程序, 程序将会进入独有的 console 模式, 可直接运行相关命令.
+
+console 模式下, 光标所在行的前缀应为 `BaiduPCS-Go >`
+
+程序会提供相关命令的使用说明.
+
+## Windows
+
+程序应在 命令提示符 (Command Prompt) 或 PowerShell 中运行.
+
+也可直接双击程序运行, 具体使用方法请参见 [命令列表及说明](#命令列表及说明) 和 [例子](#举一些例子).
+
+## Linux / macOS
+
+程序应在 终端 (Terminal) 运行.
+
+具体使用方法请参见 [命令列表及说明](#命令列表及说明) 和 [例子](#举一些例子).
+
+## Android / iOS
+
+安卓, 建议使用软件 [Termux](https://termux.com) 或 [NeoTerm](https://github.com/NeoTerm/NeoTerm/releases) 或 终端模拟器, 以提供终端环境.
+
+示例: [Android 运行本 BaiduPCS-Go 程序参考示例](https://github.com/iikira/BaiduPCS-Go/wiki/Android-运行本-BaiduPCS-Go-程序参考示例), 有兴趣的可以参考一下.
+
+苹果iOS, 需要越狱, 在 Cydia 搜索下载并安装 MobileTerminal, 以提供终端环境. MobileTerminal 功能有限, 本人建议 设备安装 openssh 后使用 ssh 控制苹果设备, sftp 传输文件.
+
+具体使用方法请参见 [命令列表及说明](#命令列表及说明) 和 [例子](#举一些例子).
+
+# 命令列表及说明
+
+## 注意
+
+命令的前缀 `BaiduPCS-Go` 为指向程序运行的全路径名 (ARGv 的第一个参数)
+
+未带任何其他参数运行程序, 则程序进入 console 模式, 前缀为 `BaiduPCS-Go >`, 则运行以下命令时, 要把命令的前缀 `BaiduPCS-Go` 去掉!
+
+## 使用百度 BDUSS 来登录百度帐号
+```
+BaiduPCS-Go login -bduss=<BDUSS>
+```
+```
+BaiduPCS-Go login
+
+请输入百度BDUSS值, 回车键提交 > 
+```
+
+## 获取当前帐号, 和所有已登录的百度帐号
+```
+BaiduPCS-Go loglist
+```
+
+## 切换已登录的百度帐号
+```
+BaiduPCS-Go chuser -uid=12345678
+```
+```
+BaiduPCS-Go chuser
+
+请输入要切换帐号的 index 值 > 
+```
+
+## 退出已登录的百度帐号
+```
+BaiduPCS-Go logout -uid=12345678
+```
+```
+BaiduPCS-Go logout
+
+请输入要退出帐号的 index 值 > 
+```
+
+## 获取配额, 即获取网盘总空间, 和已使用空间
+```
+BaiduPCS-Go quota
+```
+
+## 切换工作目录
+```
+BaiduPCS-Go cd <目录>
+```
+
+## 输出当前所在目录
+```
+BaiduPCS-Go pwd
+```
+
+## 列出当前工作目录的文件和目录或指定目录
+```
+BaiduPCS-Go ls
+```
+```
+BaiduPCS-Go ls <目录>
+```
+
+## 获取单个文件/目录的元信息 (详细信息)
+```
+BaiduPCS-Go meta <文件/目录>
+```
+```
+# 默认获取根目录元信息
+BaiduPCS-Go meta
+```
+
+## 下载文件, 网盘文件或目录的绝对路径或相对路径
+```
+BaiduPCS-Go download <网盘文件或目录的路径1> <文件或目录2> <文件或目录3> ...
+BaiduPCS-Go d <网盘文件或目录的路径1> <文件或目录2> <文件或目录3> ...
+```
+
+已支持多个文件或目录的下载.
+
+下载的文件将会保存到, **程序所在目录**的 download/ 目录 (文件夹), 暂不支持指定目录, 重名的文件会自动跳过!
+
+## 创建目录
+```
+BaiduPCS-Go mkdir <目录>
+```
+
+## 删除 单个/多个 文件/目录
+```
+BaiduPCS-Go rm <网盘文件或目录的路径1> <文件或目录2> <文件或目录3> ...
+```
+
+注意: 删除多个文件和目录时, 请确保每一个文件和目录都存在, 否则删除操作会失败.
+
+# 举一些例子 
+
+新手建议: **双击运行程序**, 进入 console 模式;
+
+console 模式下, 光标所在行的前缀应为 `BaiduPCS-Go >`
+
+以下例子的命令, 均为 console 模式下的命令
+
+运行命令的正确操作: **输入命令, 按一下回车键 (键盘上的 Enter 键)**, 程序会接收到命令并输出结果
+
+## 1. 查看程序使用说明
+
+console 模式下, 运行命令 `help`
+
+## 2. 使用百度 BDUSS 来登录百度帐号 (必做)
+
+[关于 获取百度 BDUSS](https://github.com/iikira/BaiduPCS-Go/wiki/关于-获取百度-BDUSS)
+
+console 模式下, 运行命令 `login -h` (注意空格) 查看帮助
+
+console 模式下, 运行命令 `login` 程序将会提示你输入 百度BDUSS 值
+
+console 模式下, 运行命令 `login -bduss=<BDUSS>` 来设置 百度BDUSS 值, 设置时请替换掉 `<BDUSS>`
+
+## 3. 切换网盘工作目录
+
+console 模式下, 运行命令 `cd /我的资源` 将工作目录切换为 `/我的资源` (前提: 该目录存在于网盘)
+
+目录支持通配符匹配, 所以你也可以这样: 运行命令 `cd /我的*` 或 `cd /我的??` 将工作目录切换为 `/我的资源`, 简化输入.
+
+将工作目录切换为 `/我的资源` 成功后, 运行命令 `cd ..` 切换上级目录, 即将工作目录切换为 `/`
+
+为什么要这样设计呢, 举个例子, 
+
+假设 你要下载 `/我的资源` 内名为 `1.mp4` 和 `2.mp4` 两个文件, 而未切换工作目录, 你需要依次运行以下命令: 
 
 ```
-git clone https://github.com/giswqs/python-geospatial.git
-cd python-geospatial/binder/
-conda env create -f environment.yml
-source activate pygeo
-ipython kernel install --user --name="pygeo"
+d /我的资源/1.mp4
+d /我的资源/2.mp4
 ```
 
-## Tutorials
+而切换网盘工作目录之后, 依次运行以下命令: 
 
-Launch the interactive notebook tutorials with **mybinder.org** or **binder.pangeo.io** now:
+```
+cd /我的资源
+d 1.mp4
+d 2.mp4
+```
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/giswqs/python-geospatial/master)
-[![Pangeo](http://binder.pangeo.io/badge.svg)](http://binder.pangeo.io/v2/gh/giswqs/python-geospatial/master)
+这样就达到了简化输入的目的
 
-## Python Packages
+## 4. 网盘内列出文件和目录
 
-This list of Python packages is adapted from the Python list of [Awesome Geospatial](https://github.com/sacridini/Awesome-Geospatial#python). All the listed Python packages have been pre-installed in the binder environment.   
+console 模式下, 运行命令 `ls -h` (注意空格) 查看帮助
 
-### Geospatial Analysis
+console 模式下, 运行命令 `ls` 来列出当前所在目录的文件和目录
 
-* [whitebox](https://github.com/giswqs/whitebox) :zap: - A Python package for advanced geospatial data analysis based on [WhiteboxTools](https://github.com/jblindsay/whitebox-tools).
-* [lidar](https://github.com/giswqs/lidar) - lidar is a toolset for terrain and hydrological analysis using digital elevation models (DEMs).
-* [pygis](https://github.com/giswqs/pygis) - pygis is a collection of Python snippets for geospatial analysis.
-* [ArcGIS Python API](https://developers.arcgis.com/python/) - Esri's Python library for working with maps and geospatial data, powered by web GIS.
-* [dask-rasterio](https://github.com/dymaxionlabs/dask-rasterio) - Read and write rasters in parallel using Rasterio and Dask.
-* [earthengine-api](https://anaconda.org/conda-forge/earthengine-api) :zap: - The Earth Engine Python API allows developers to interact with Google Earth Engine.
-* [EarthPy](https://github.com/earthlab/earthpy) - EarthPy is a python package that makes it easier to plot and work with spatial raster and vector data. 
-* [Fiona](http://toblerity.org/fiona/) :zap: - For making it easy to read/write geospatial data formats.
-* [GDAL](https://anaconda.org/conda-forge/gdal) - The Geospatial Data Abstraction Library for reading and writing raster and vector geospatial data formats. 
-* [geeup](https://github.com/samapriya/geeup) - Simple CLI for Earth Engine Uploads.
-* [geojson-area](https://github.com/scisco/area) - Calculate the area inside of any GeoJSON geometry. This is a port of Mapbox's geojson-area for Python.
-* [geojsonio](https://github.com/jwass/geojsonio.py) - Open GeoJSON data on geojson.io from Python. 
-* [GeoPandas](https://github.com/geopandas/geopandas) - Python tools for geographic data.
-* [GIPPY](https://github.com/gipit/gippy) - Geospatial Image Processing for Python.
-* [gpdvega](https://github.com/iliatimofeev/gpdvega) - gpdvega is a bridge between GeoPandas and Altair that allows to seamlessly chart geospatial data.
-* [mapboxgl-jupyter](https://github.com/mapbox/mapboxgl-jupyter) - Use Mapbox GL JS to visualize data in a Python Jupyter notebook.
-* [networkx](http://networkx.github.io/) - To work with networks.
-* [OSMnet](https://github.com/UDST/osmnet) - Tools for the extraction of OpenStreetMap street network data.
-* [pandana](https://github.com/UDST/pandana) - Pandas Network Analysis - dataframes of network queries, quickly.
-* [Peartree](https://github.com/kuanb/peartree) - Peartree: A library for converting transit data into a directed graph for network analysis.
-* [pygdal](https://pypi.org/project/pygdal/) - Virtualenv and setuptools friendly version of standard GDAL python bindings.
-* [pymap3d](https://github.com/scivision/pymap3d) - Python 3D coordinate conversions for geospace ecef enu eci.
-* [Pyncf](https://github.com/karimbahgat/pyncf) - Pure Python NetCDF file reading and writing.
-* [PyProj](https://github.com/jswhit/pyproj) - For conversions between projections.
-* [PySAL](http://pysal.readthedocs.io/en/latest/) - For all your spatial econometrics needs.
-* [PyShp](https://code.google.com/archive/p/pyshp/) - For reading and writing shapefiles.
-* [rasterio](https://github.com/mapbox/rasterio) :zap: - rasterio employs GDAL under the hood for file I/O and raster formatting.
-* [rasterstats](https://github.com/perrygeo/python-rasterstats/) - Python module for summarizing geospatial raster datasets based on vector geometries.
-* [rio-cogeo](https://github.com/mapbox/rio-cogeo) - CloudOptimized GeoTIFF creation plugin for rasterio.   
-* [rio-color](https://github.com/mapbox/rio-color) - Color correction plugin for rasterio.
-* [rio-hist](https://github.com/mapbox/rio-hist) - Histogram matching plugin for rasterio.
-* [rio-tiler](https://github.com/mapbox/rio-tiler) - Get mercator tile from landsat, sentinel or other AWS hosted raster.
-* [Rtree](http://toblerity.org/rtree/) - For efficiently querying spatial data.
-* [sentinelhub](https://github.com/sentinel-hub/sentinelhub-py) - Download and process satellite imagery in Python scripts using Sentinel Hub services.
-* [sentinelsat](https://github.com/sentinelsat/sentinelsat) - Search and download Copernicus Sentinel satellite images.
-* [Shapely](https://pypi.python.org/pypi/Shapely) - Manipulation and analysis of geometric objects in the Cartesian plane.
-* [ts-raster](https://github.com/adbeda/ts-raster) - ts-raster is a python package for analyzing time-series characteristics from raster data. 
-* [urbansim](https://github.com/UDST/urbansim) - New version of UrbanSim, a platform for modeling metropolitan real estate markets.
-* [USGS API](https://github.com/kapadia/usgs) - USGS is a python module for interfacing with the US Geological Survey's API.
-* [Verde](https://github.com/fatiando/verde) - Verde is a Python library for processing spatial data and interpolating it on regular grids.
-* [xarray](http://xarray.pydata.org/en/stable/) - An open source project that aims to bring the labeled data power of pandas to the physical sciences.
+console 模式下, 运行命令 `ls /我的资源` 来列出 `/我的资源` 内的文件和目录
 
-### Mapping/Plotting
+console 模式下, 运行命令 `ls ..` 来列出当前所在目录的上级目录的文件和目录
 
-* [basemap](https://github.com/matplotlib/basemap) - Plot on map projections (with coastlines and political boundaries) using matplotlib.
-* [bokeh](https://github.com/bokeh/bokeh) - Interactive Web Plotting for Python.
-* [Cartopy](http://scitools.org.uk/cartopy/) - A library providing cartographic tools for python for plotting spatial data.
-* [Descartes](https://pypi.python.org/pypi/descartes) - Plot geometries in matplotlib.
-* [geoplot](https://github.com/ResidentMario/geoplot) - geoplot is a high-level Python geospatial plotting library.
-* [geopy](https://github.com/geopy/geopy) - geopy is a Python 2 and 3 client for several popular geocoding web services.
-* [folium](https://github.com/python-visualization/folium) - Python Data, Leaflet.js Maps.
-* [matplotlib](http://matplotlib.org/) - Python 2D plotting library.
-* [mplleaflet](https://github.com/jwass/mplleaflet) - mplleaflet converts a matplotlib plot into a webpage containing a pannable, zoomable Leaflet map.
-* [pyWPS](http://pywps.org/) - An implementation of the Web Processing Service standard from the Open Geospatial Consortium. 
-* [pyCSW](http://pycsw.org/) - Fully implements the OpenGIS Catalogue Service Implementation Specification.
-* [ipyleaflet](https://github.com/jupyter-widgets/ipyleaflet) - A Jupyter / Leaflet bridge enabling interactive maps in the Jupyter notebook.
-* [here-map-widget-for-jupyter](https://github.com/heremaps/here-map-widget-for-jupyter) - Use HERE Maps API for JavaScript in your Jupyter Notebook.
+## 5. 下载文件
 
-### Deep Learning
+说明: 下载的文件将会保存到 download/ 目录 (文件夹)
 
-* [label-maker](https://github.com/developmentseed/label-maker) - Data Preparation for Satellite Machine Learning.
-* [label-maker-binder](https://github.com/giswqs/label-maker-binder/pulse) - Using label-maker in an interactive notebook on the cloud.
-* [Keras](https://keras.io/) - Keras is a high-level neural networks API capable of running on top of TensorFlow, CNTK, or Theano.
-* [TensorFlow](https://www.tensorflow.org/) - TensorFlow is an open source software library for numerical computation using data flow graphs.
+console 模式下, 运行命令 `d -h` (注意空格) 查看帮助
 
-### General Python
+console 模式下, 运行命令 `d /我的资源/1.mp4` 来下载位于 `/我的资源/1.mp4` 的文件 `1.mp4` , 该操作等效于运行以下命令: 
 
-* [dask](https://github.com/dask/dask) - Dask is a flexible parallel computing library for analytics. 
-* [imageio](https://imageio.github.io/) - imageio provides an easy interface to read and write a wide range of image data.
-* [Mahotas](https://github.com/luispedro/mahotas) - Mahotas is a library of fast computer vision algorithms operating over numpy arrays.
-* [NumPy](http://www.numpy.org/) - NumPy is the fundamental package for scientific computing with Python.
-* [Pandas](http://pandas.pydata.org/) - Open source library providing high-performance, easy-to-use data structures and data analysis tools.
-* [scikit-image](http://scikit-image.org/) - Scikit-image is a collection of algorithms for image processing.
-* [scikit-learn](https://github.com/scikit-learn/scikit-learn) - scikit-learn is a Python module for machine learning built on top of SciPy.
-* [SciPy](https://github.com/scipy/scipy) - SciPy is open-source software for mathematics, science, and engineering.
-* [Statsmodels](http://statsmodels.sourceforge.net/) - Python module that allows users to explore data, estimate statistical models, and perform statistical tests.
+```
+cd /我的资源
+d 1.mp4
+```
 
-## Cloud Computing Platforms
+现在已经支持目录 (文件夹) 下载, 所以, 运行以下命令, 会下载 `/我的资源` 内的所有文件 (违规文件除外): 
 
-* [Google Earth Engine](https://earthengine.google.com/) :zap: - Planetary-scale geospatial analysis for everyone.
-* [Pangeo](http://pangeo.io/) - A community platform for Big Data geoscience.
-* [Geospatial Big Data Platform (GBDX)](https://platform.digitalglobe.com/gbdx/) - Cloud computing platform from Digital Globe.
-* [Radiant Earth](https://www.radiant.earth/) - Open-source cloud computing infrastructure for geospatial analysis.
-* [Radiant MLHub](https://www.mlhub.earth/) - Open Repository for Geospatial Training Data.
-* [Sentinel Playground](https://www.sentinel-hub.com/) - Cloud platform for analysis of Sentinel-2A and B and so on.
-* [Vane: Query Language](https://owm.io/vaneLanguage) - Creating Basemaps from different satellite images with online processing and computing.
+```
+d /我的资源
+```
 
-## References
+参见 例6 设置下载最大并发数
 
-* [Awesome-Geospatial](https://github.com/sacridini/Awesome-Geospatial)
-* [SpatialPython](https://github.com/SpatialPython/spatial_python)
-* [python-geospatial-ecosystem](https://github.com/loicdtx/python-geospatial-ecosystem)
-* [Automating-GIS-processes](https://github.com/Automating-GIS-processes/2018)
-* [Geo-Python](https://github.com/geo-python/2018)
-* [scipy2018-geospatial-data](https://github.com/geopandas/scipy2018-geospatial-data)
-* [Geospatial_Data_with_Python](https://github.com/SocialDataSci/Geospatial_Data_with_Python)
-* [Essential geospatial Python libraries](https://medium.com/@chrieke/essential-geospatial-python-libraries-5d82fcc38731)
-* [Geo-spatial analysis with Python](https://medium.com/@lisa.mitford/geo-spatial-analysis-with-python-fdddd69eebea)
-* [From Analysis Ready Data to Analysis Engines and Everything in between](https://medium.com/@samapriyaroy/from-analysis-ready-data-to-analysis-engines-and-everything-in-between-676d98792d2e)
+## 6. 设置下载最大并发数
+
+console 模式下, 运行命令 `set -h` (注意空格) 查看设置帮助以及可供设置的值
+
+console 模式下, 运行命令 `set max_parallel 250` 将下载最大并发数设置为 250
+
+下载最大并发数建议值: 50~500, 太低下载速度提升不明显甚至速度会变为0, 太高可能会导致程序和系统超负荷
+
+## 7. 退出程序
+
+运行命令 `quit` 或 `exit` 或 组合键 `Ctrl+C` 或 组合键 `Ctrl+D`
+
+# 已知问题
+下载进度到最后的时候, 下载速度会大幅降低.
+
+# TODO
+
+1. 网盘内文件或目录的复制, 移动, 删除等操作
+2. 上传文件
