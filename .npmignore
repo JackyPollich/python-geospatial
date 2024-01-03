@@ -1,0 +1,5 @@
+deps
+build
+qt
+qt_compiled
+openssl
